@@ -1,16 +1,25 @@
-.flex-container{
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
+
+
+.heading {
+    margin: 50px 0;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 400;
+    font-family: 'Silkscreen', sans-serif; 
+}
+
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.score {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    font-size: 40px;
+    font-family: 'Silkscreen', sans-serif;
 }
-button{
-    width: 150px;
-    height: auto;
-    background-color: lightpink;
-    border-radius: 3px;
-    font-size: xx-large;
-    font-family: fantasy;
-}
-button:hover {
-    cursor: pointer;
-}
+
