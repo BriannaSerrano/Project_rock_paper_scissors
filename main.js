@@ -1,78 +1,57 @@
-const choices = ["rock","paper","scissors"]
-const winners = [];
-
-function game() {
-   for(let i = 1; i <= 5; i++){
-    playRound(i);
-   }
-   document.querySelector("button").textContent = "Play new game";
-   logWins();
-}
-
-function playRound(round) {
-const playerSelection = playerChoice();
-const computerSelection = computerChoice();
-const winner = checkWinner(playerSelection, computerSelection);
-winners.push(winner);
-logRound(playerSelection, computerSelection, winner, round);
-}
-
-function playerChoice () {
-    let input = prompt("Type Rock, Paper, or Scissors");
-    while(input == null){
-        input = prompt("Type Rock, Paper, or Scissors");
+let getComputerChoice = () => {
+    let query = Math.floor(Math.random() * 3);
+    switch (query) {
+      case 0:
+        return 'rock';
+        break;
+  
+      case 1:
+        return 'paper';
+        break;
+  
+      default:
+        return 'scissors';
     }
-    input = input.toLowerCase();
-    let check =validateInput(input);
-    while (check == false) {
-       input = prompt(
-            "Type Rock, Paper, or Scissors. Spelling needs to be exact, but capitilization doesnt matter"
-        );
-        while (input == null) {
-            input = prompt("Type Rock, Paper, or Scissors");
-        }
-        input = input.toLowerCase();
-        check = validateInput(input);
-    }
-    return input;
-}
-
-function computerChoice(){
-    return choices[Math.floor(Math.random()*choices.length)]
-}
-
-function validateInput(choice){
-    return choices.includes(choice);
-}
-
-function checkWinner(choiceP, choiceC){
-    if(choiceP === choiceC){
-        return "Tie";
-    } else if(
-        (choiceP === "rock" && choiceC =="scissors") || 
-        (choiceP === "paper" && choiceC == "rock") || 
-        (choiceP === "scissors" && choiceC == "paper")
-    ){
-        return "Player";
+  }
+  
+  let getPlayerChoice = () => {
+    let choice = prompt('Give me your election please');
+    let toLower = choice.toLowerCase();
+    return toLower;
+  }
+  
+  let playRound = (playerSelection, computerSelection) => {
+    if ((playerSelection === 'rock' && computerSelection === 'scissors') || (playerSelection === 'paper' && computerSelection === 'rock') || (playerSelection === 'scissors' && computerSelection === 'paper')) {
+      return `You Win! ${playerSelection} beats ${computerSelection}`;
+    } else if (playerSelection === computerSelection) {
+      return 'It\'s a tie';
     } else {
-        return "Computer"
+      return `You Lose! ${computerSelection} beats ${playerSelection}`;
     }
-}
-
-function logWins(){
-   let playerWins = winners.filter((item) => item == "Player").length;
-   let computerWins = winners.filter((item) => item == "Computer").length;
-   let ties = winners.filter((item) => item == "Tie").length;
-   console.log("Results:")
-   console.log("Player Wins:", playerWins);
-   console.log("Computer Wins", computerWins);
-   console.log("Ties:", ties);
-}
-
-function logRound(playerChoice, computerChoice, winner, round){
-    console.log("Round:", round);
-    console.log("Player Chose:", playerChoice);
-    console.log("Computer Chose:", computerChoice);
-    console.log(winner, "Won the Round");
-    console.log("-------------------------");
-}
+  }
+  
+  let game = () => {
+    let computerPoints = 0;
+    let playerPoints = 0;
+    while(computerPoints < 5 && playerPoints < 5) {
+      playerSelection = getPlayerChoice();
+      computerSelection = getComputerChoice();
+      if (playRound(playerSelection, computerSelection) === `You Win! ${playerSelection} beats ${computerSelection}`) {
+        playerPoints++;
+        console.log(`You Win! ${playerSelection} beats ${computerSelection}, you have ${playerPoints} and the computer have ${computerPoints}`);
+      } else if (playRound(playerSelection, computerSelection) === 'It\'s a tie') {
+        console.log('It\'s a tie');
+        continue;
+      } else {
+        computerPoints++;
+        console.log(`You Lose! ${computerSelection} beats ${playerSelection}, you have ${playerPoints} and the computer have ${computerPoints}`);
+      }
+    }
+    if (playerPoints > computerPoints) {
+      console.log('Congratulaion, you finally win');
+    } else {
+      console.log('Sorry, you finally lose, please try again');
+    }
+  }
+  
+  game();
